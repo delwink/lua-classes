@@ -18,6 +18,7 @@ SOFTWARE.
 
 function class(base, init)
    local c = {}
+
    if not init and type(base) == 'function' then
       init = base
       base = nil
@@ -25,23 +26,28 @@ function class(base, init)
       for i,v in pairs(base) do
          c[i] = v
       end
+
       c._base = base
    end
+
    c.__index = c
 
    local mt = {}
    mt.__call = function(class_tbl, ...)
       local obj = {}
       setmetatable(obj,c)
-   if init then
-      init(obj,...)
-   else 
-      if base and base.init then
-	 base.init(obj, ...)
+
+      if init then
+	 init(obj,...)
+      else 
+	 if base and base.init then
+	    base.init(obj, ...)
+	 end
       end
+
+      return obj
    end
-   return obj
-   end
+
    c.init = init
    c.is_a = function(self, klass)
       local m = getmetatable(self)
@@ -49,8 +55,10 @@ function class(base, init)
          if m == klass then return true end
          m = m._base
       end
+
       return false
    end
+
    setmetatable(c, mt)
    return c
 end
