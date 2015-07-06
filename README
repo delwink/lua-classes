@@ -2,3 +2,32 @@ lua-classes
 ===========
 
 Simple Lua 5.1 class implementation
+
+This is not a 100% original work. It is derived from one of the basic OOP
+implementations on the lua-users wiki, taking different opinions into
+consideration to create this final result.
+
+Usage
+-----
+
+``` lua
+require 'class'
+
+MyClass = class()
+
+function MyClass:__init(var1, var2)
+   self.var1 = var1
+   self.var2 = var2
+end
+
+mc = MyClass('hello world', 5)
+
+= mc.var1 -- => 'hello world'
+```
+
+License
+-------
+
+This class implementation is libre software: you are free to use, copy, modify,
+and redistribute it under the terms of the ISC license. See the license header
+at the top of `class.lua` for exact details.
