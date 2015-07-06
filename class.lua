@@ -16,11 +16,11 @@ SOFTWARE.
 
 --]]
 
-function class(base, init)
+function class(base, __init)
    local c = {}
 
-   if not init and type(base) == 'function' then
-      init = base
+   if not __init and type(base) == 'function' then
+      __init = base
       base = nil
    elseif type(base) == 'table' then
       for i,v in pairs(base) do
@@ -35,20 +35,20 @@ function class(base, init)
    local mt = {}
    mt.__call = function(class_tbl, ...)
       local obj = {}
-      setmetatable(obj,c)
+      setmetatable(obj, c)
 
-      if init then
-	 init(obj,...)
+      if class_tbl.__init then
+	 class_tbl.__init(obj, ...)
       else 
-	 if base and base.init then
-	    base.init(obj, ...)
+	 if base and base.__init then
+	    base.__init(obj, ...)
 	 end
       end
 
       return obj
    end
 
-   c.init = init
+   c.__init = __init
    c.is_a = function(self, klass)
       local m = getmetatable(self)
       while m do 
